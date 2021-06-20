@@ -1,0 +1,24 @@
+/* styling for controller container */
+.controller_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* styling for start button */
+.start_button {
+  border: none;
+  box-sizing: border-box;
+  border-radius: 3px;
+  background: white;
+  border: 2px solid black;
+  color: black;
+  padding: 10px 20px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.start_button:hover {
+  background: black;
+  color: white;
+}

@@ -1,0 +1,48 @@
+.visualiser_container {
+  width: fit-content;
+  height: fit-content;
+  background: white;
+  margin: auto;
+  margin-top: 30px;
+}
+
+/* styling for node row */
+.node_row {
+  width: inherit;
+  height: 30px;
+  display: flex;
+}
+
+/* styling for nodes */
+.node {
+  width: 30px;
+  height: 30px;
+  background: white;
+  border: 1px solid black;
+  box-sizing: border-box;
+  transition: background 0.2s ease-out;
+}
+
+.node.start {
+  background: red;
+}
+
+.node.end {
+  background: blue;
+}
+
+.node.path {
+  background: lightgreen;
+}
+
+.node.open {
+  background: lightgray;
+}
+
+.node.closed {
+  background: black;
+}
+
+.node.neutral {
+  background: white;
+}
