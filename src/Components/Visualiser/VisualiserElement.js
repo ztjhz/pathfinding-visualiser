@@ -6,6 +6,7 @@ export const VisualiserContainer = styled.div`
   background: white;
   margin: auto;
   margin-top: 30px;
+  padding: 10px 10px;
 `;
 
 export const NodeRow = styled.div`
@@ -36,21 +37,27 @@ export const Node = styled.div`
   border: 1px solid #212121;
   box-sizing: border-box;
   transition: background 100ms linear;
-`;
-
-export const StartButton = styled.button`
-  border: none;
-  box-sizing: border-box;
-  border-radius: 3px;
-  background: white;
-  border: 2px solid #212121;
-  color: black;
-  padding: 10px 20px;
-  margin-top: 10px;
-  cursor: pointer;
 
   &:hover {
-    background: #212121;
-    color: white;
+    background: ${(props) =>
+      !props.isFinding &&
+      props.blockType !== 'start' &&
+      props.blockType !== 'end' &&
+      (props.controlState === 1
+        ? '#212121'
+        : props.controlState === 2
+        ? '#eeeeee'
+        : props.controlState === 3
+        ? '#ef5350'
+        : props.controlState === 4
+        ? '#ab47bc'
+        : null)};
+    cursor: ${(props) =>
+      !props.isFinding &&
+      props.blockType !== 'start' &&
+      props.blockType !== 'end' &&
+      props.controlState
+        ? 'pointer'
+        : 'default'};
   }
 `;

@@ -9,6 +9,7 @@ function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
   return (
     <>
+      <h1>Pathfinding Visualiser</h1>
       <Visualiser appState={state} dispatch={dispatch} />
       <Controller appState={state} dispatch={dispatch} />
     </>

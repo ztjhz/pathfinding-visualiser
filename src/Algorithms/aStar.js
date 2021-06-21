@@ -1,9 +1,8 @@
 import { sleep, Node, getNeighbors, calculateDist } from './helper';
 
-const aStar = async (startPos, endPos, rLen, cLen, dispatch, obstacles) => {
-  const open = [
-    new Node(startPos.r, startPos.c, null, 0, calculateDist(startPos, endPos)),
-  ];
+const aStar = async (appState, dispatch) => {
+  const { start, end, rLen, cLen, obstacles } = appState;
+  const open = [new Node(start.r, start.c, null, 0, calculateDist(start, end))];
   const closed = [];
 
   while (open.length > 0) {
@@ -17,16 +16,15 @@ const aStar = async (startPos, endPos, rLen, cLen, dispatch, obstacles) => {
     closed.push(curr);
     // update the color of the node in browser
     if (
-      !(startPos.r === curr.r && startPos.c === curr.c) &&
-      !(endPos.r === curr.r && endPos.c === curr.c)
+      !(start.r === curr.r && start.c === curr.c) &&
+      !(end.r === curr.r && end.c === curr.c)
     ) {
       dispatch({ type: 'CLOSED_NODE', payload: { r: curr.r, c: curr.c } });
-      await sleep(10);
+      await sleep(1);
     }
 
     // reached the end
-    if (curr.r === endPos.r && curr.c === endPos.c) {
-      console.log(open);
+    if (curr.r === end.r && curr.c === end.c) {
       return curr;
     }
 
@@ -43,139 +41,51 @@ const aStar = async (startPos, endPos, rLen, cLen, dispatch, obstacles) => {
       }
 
       if (!blocked) {
-        // calculate f value
+        // calculate f value of neighbour nodes of the current node
         neighbour.g = curr.g + calculateDist(curr, neighbour);
-        neighbour.h = calculateDist(neighbour, endPos);
+        neighbour.h = calculateDist(neighbour, end);
         neighbour.f = neighbour.g + neighbour.h;
 
-        // ===============================================================================
-        /* let inOpenOrClosed = false;
+        let inOpenOrClosed = false;
+        let push = false;
 
-        // if neighbor in OPEN and g of neighbor less than g of the same node in the open list
         for (let i = 0; i < open.length; i += 1) {
           const openNode = open[i];
-          if (
-            openNode.r === neighbour.r &&
-            openNode.c === neighbour.c &&
-            neighbour.g < openNode.g
-          ) {
-            // remove neighbor from OPEN, because new path is better
-            open.splice(i, 1);
+          if (openNode.r === neighbour.r && openNode.c === neighbour.c) {
             inOpenOrClosed = true;
+            if (neighbour.g < openNode.g) {
+              // new path to the neighbour node is better,
+              // so remove the existing one from open list and append the new one to the open list
+              open.splice(i, 1);
+              push = true;
+            }
             break;
           }
         }
 
-        // if neighbor in CLOSED and cost less than g(neighbor)
         for (let i = 0; i < closed.length; i += 1) {
           const closeNode = closed[i];
-          if (
-            closeNode.r === neighbour.r &&
-            closeNode.c === neighbour.c &&
-            neighbour.g < closeNode.g
-          ) {
-            // remove neighbor from CLOSED
-            closed.splice(i, 1);
+          if (closeNode.r === neighbour.r && closeNode.c === neighbour.c) {
             inOpenOrClosed = true;
+            if (neighbour.g < closeNode.g) {
+              // new path to the neighbour node is better,
+              // so remove the existing one from closed list and append the new one to the open list
+              closed.splice(i, 1);
+              push = true;
+            }
             break;
           }
         }
 
-        // if neighbor not in OPEN and neighbor not in CLOSED:
-        if (!inOpenOrClosed) {
+        // we ignore neighbour nodes that are already in the open/closed list but has higher g value
+        if (!inOpenOrClosed || push) {
           open.push(neighbour);
+
           dispatch({
             type: 'OPEN_NODE',
             payload: { r: neighbour.r, c: neighbour.c },
           });
-          await sleep(10);
-        } */
-        // ===============================================================================
-        // if a node with the same position as i, but with a lower f, skip i
-        /* let skip = false;
-        for (const openNode of open) {
-          if (
-            openNode.f < neighbour.f &&
-            openNode.r === neighbour.r &&
-            openNode.c === neighbour.c
-          ) {
-            skip = true;
-            break;
-          }
         }
-
-        // if neighbour is in the CLOSED list
-        // a lower f than successor, skip this successor
-        // otherwise, add  the node to the open list
-        for (const closeNode of closed) {
-          if (
-            closeNode.f < neighbour.f &&
-            closeNode.r === neighbour.r &&
-            closeNode.c === neighbour.c
-          ) {
-            skip = true;
-            break;
-          }
-        }
-
-        if (!skip) {
-          open.push(neighbour);
-
-          // update the color of the node in browser
-          if (
-            !(startPos.r === neighbour.r && startPos.c === neighbour.c) &&
-            !(endPos.r === neighbour.r && endPos.c === neighbour.c)
-          ) {
-            dispatch({
-              type: 'OPEN_NODE',
-              payload: { r: neighbour.r, c: neighbour.c },
-            });
-            // await sleep(1);
-          }
-        } */
-        // ===============================================================================
-
-        let skip = false;
-        // neighbor has lower g value than current and is in the closed list
-        for (const closeNode of closed) {
-          if (
-            neighbour.g < curr.g &&
-            closeNode.r === neighbour.r &&
-            closeNode.c === neighbour.c
-          ) {
-            closeNode.g = neighbour.g;
-            closeNode.f = neighbour.f;
-            closeNode.h = neighbour.h;
-            closeNode.parent = curr;
-            skip = true;
-            break;
-          }
-        }
-        // current g value is lower and this neighbor is in the open list
-        for (const openNode of open) {
-          if (
-            neighbour.g > curr.g &&
-            openNode.r === neighbour.r &&
-            openNode.c === neighbour.c
-          ) {
-            openNode.g = neighbour.g;
-            openNode.f = neighbour.f;
-            openNode.h = neighbour.h;
-            openNode.parent = curr;
-            skip = true;
-            break;
-          }
-        }
-
-        if (!skip) {
-          open.push(neighbour);
-          dispatch({
-            type: 'OPEN_NODE',
-            payload: { r: neighbour.r, c: neighbour.c },
-          });
-          await sleep(10);
-        }
-        // ===============================================================================
       }
     }
   }

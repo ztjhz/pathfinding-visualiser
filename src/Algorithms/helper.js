@@ -17,6 +17,7 @@ export const getNeighbors = (pos, rowLen, colLen) => {
     { r: 1, c: 0 },
     { r: 0, c: -1 },
     { r: 0, c: 1 },
+    // diagonal movement
     { r: 1, c: 1 },
     { r: 1, c: -1 },
     { r: -1, c: 1 },
@@ -43,7 +44,7 @@ export const getParentPath = (rootNode) => {
   let currNode = rootNode;
   const path = [];
   while (currNode) {
-    path.unshift(currNode);
+    path.unshift({ r: currNode.r, c: currNode.c });
     currNode = currNode.parent;
   }
   return path;
