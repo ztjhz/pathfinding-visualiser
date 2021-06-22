@@ -2,8 +2,12 @@ import styled from 'styled-components';
 
 export const ControllerContainer = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
+  max-width: 800px;
+  margin: auto;
+  padding-left: 10px;
 `;
 
 export const ControllerWrapper = styled.div`
@@ -11,31 +15,31 @@ export const ControllerWrapper = styled.div`
   flex-wrap: wrap;
   justify-content: start;
   align-items: center;
-  margin-left: 10px;
-  margin-right: 10px;
+  margin: 10px 0;
+  gap: 10px 0;
 `;
 
 export const StartButton = styled.button`
   border: none;
   box-sizing: border-box;
   border-radius: 3px;
-  background: white;
+  background: #66bb6a;
   border: 2px solid #212121;
   color: #212121;
   font-weight: bold;
   padding: 5px 10px;
-  margin-top: 10px;
   margin-right: 10px;
   cursor: pointer;
 
   &:hover {
-    background: #212121;
-    color: white;
+    background: #66bb6a;
+    color: #fff;
   }
 
   &:disabled {
-    background: #212121;
-    color: white;
+    background: #66bb6a;
+    color: #fff;
+    opacity: 0.5;
     cursor: default;
   }
 `;
@@ -49,7 +53,6 @@ export const ControlButton = styled.button`
   color: #212121;
   font-weight: bold;
   padding: 5px 10px;
-  margin-top: 10px;
   margin-right: 10px;
   cursor: pointer;
 
@@ -85,4 +88,52 @@ export const ControlButton = styled.button`
     border: 2px solid #212121;
     color: #212121;
   }
+`;
+
+export const DropdownContent = styled.div`
+  display: none;
+  position: absolute;
+  margin-top: 5px;
+  background-color: #f9f9f9;
+  width: fit-content;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  cursor: pointer;
+  border-radius: 3px;
+  border: 2px solid #212121;
+
+  & p {
+    color: black;
+    padding: 12px 16px;
+    margin: 0;
+    text-decoration: none;
+    display: block;
+  }
+
+  & p:hover {
+    background-color: #212121;
+    color: white;
+  }
+`;
+export const DropdownBtn = styled.button`
+  border: none;
+  box-sizing: border-box;
+  border-radius: 3px;
+  border: 2px solid #212121;
+  background: white;
+  color: #212121;
+  font-weight: bold;
+  padding: 5px 10px;
+  margin-right: 10px;
+  cursor: pointer;
+
+  &:hover {
+    background: #212121;
+    color: white;
+  }
+`;
+
+export const Dropdown = styled.div`
+  position: relative;
+  display: inline-block;
 `;

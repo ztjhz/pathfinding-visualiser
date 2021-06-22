@@ -1,4 +1,4 @@
-import { sleep, Node, getNeighbors, calculateDist } from './helper';
+import { sleep, Node, getNeighbors, calculateDist } from '../helper';
 
 const aStar = async (appState, dispatch) => {
   const { start, end, rLen, cLen, obstacles } = appState;
@@ -29,7 +29,7 @@ const aStar = async (appState, dispatch) => {
     }
 
     // get neighbours of the current node
-    const neighbours = getNeighbors(curr, rLen, cLen);
+    const neighbours = getNeighbors(curr, rLen, cLen, true, true);
 
     for (const neighbour of neighbours) {
       // check if neighbour is an obstacle, skip it

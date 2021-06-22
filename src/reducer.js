@@ -1,17 +1,19 @@
-import aStar from './Algorithms/aStar';
+import aStar from './Algorithms/Pathfinding/aStar';
+import binaryTreeMaze from './Algorithms/Maze Generation/binaryTree';
+import BFS from './Algorithms/Pathfinding/BreathFirstSearch';
 
 const rLen = 20;
 const cLen = 20;
-const defaultStart = { r: 0, c: 4 };
+const defaultStart = { r: 2, c: 2 };
 const defaultEnd = { r: 18, c: 17 };
 const obstacles = [
-  { r: 0, c: 1 },
-  { r: 1, c: 2 },
-  { r: 1, c: 3 },
-  { r: 1, c: 4 },
-  { r: 1, c: 5 },
-  { r: 1, c: 6 },
-  { r: 0, c: 0 },
+  // { r: 0, c: 1 },
+  // { r: 1, c: 2 },
+  // { r: 1, c: 3 },
+  // { r: 1, c: 4 },
+  // { r: 1, c: 5 },
+  // { r: 1, c: 6 },
+  // { r: 0, c: 0 },
 ];
 
 const initialiseNodes = (start, end) => {
@@ -38,9 +40,14 @@ export const initialState = {
   cLen,
   path: [],
   nodes: initialiseNodes(defaultStart, defaultEnd),
-  algorithms: {
+  pathAlgorithms: {
     ASTAR: (appState, dispatch) => aStar(appState, dispatch),
+    'Breath First Search': (appState, dispatch) => BFS(appState, dispatch),
   },
+  mazeAlgorithms: {
+    'Binary Tree': (appState, dispatch) => binaryTreeMaze(appState, dispatch),
+  },
+  currentAlgorithm: { path: 'ASTAR', maze: 'Binary Tree' },
   obstacles,
   isFinding: false,
   controlState: 0,
@@ -81,18 +88,20 @@ export const reducer = (state, action) => {
     case 'CREATE_OBSTACLE':
       if (!skip) {
         nodes[payload.r][payload.c] = 'obstacle';
+        obstacles.push({ r: payload.r, c: payload.c });
       }
       return {
         ...state,
-        obstacles: [...obstacles, { r: payload.r, c: payload.c }],
+        obstacles,
       };
     case 'REMOVE_OBSTACLE':
       if (!skip) {
         nodes[payload.r][payload.c] = 'neutral';
       }
       for (let i = 0; i < obstacles.length; i += 1) {
-        if (obstacles[i].r === payload.r && obstacles[i].c === payload.c)
+        if (obstacles[i].r === payload.r && obstacles[i].c === payload.c) {
           obstacles.splice(i, 1);
+        }
       }
       return {
         ...state,
@@ -139,5 +148,12 @@ export const reducer = (state, action) => {
       return { ...state, isFinding: false };
     default:
       throw new Error('Wrong dispatch type!');
+
+    /* change algorithms */
+    case 'CHANGE_ALGO':
+      return {
+        ...state,
+        currentAlgorithm: payload,
+      };
   }
 };

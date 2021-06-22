@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import React, { useEffect, useState } from 'react';
 import './index.css';
 import {
@@ -5,11 +7,14 @@ import {
   StartButton,
   ControlButton,
   ControllerWrapper,
+  Dropdown,
+  DropdownContent,
+  DropdownBtn,
 } from './ControllerElements';
 import { sleep } from '../../Algorithms/helper';
 
 const Controller = ({ appState, dispatch }) => {
-  const { algorithms } = appState;
+  const { pathAlgorithms, mazeAlgorithms, currentAlgorithm } = appState;
   const [activeBtn, setactiveBtn] = useState(null);
 
   const startAlgo = async (e) => {
@@ -22,14 +27,20 @@ const Controller = ({ appState, dispatch }) => {
       document.querySelector('#set_start_btn'),
       document.querySelector('#set_end_btn'),
       document.querySelector('#clear_board_btn'),
+      document.querySelector('#generate_maze_btn'),
     ];
     btns.forEach((btn) => {
       btn.disabled = true;
+      btn.style.opacity = 0.5;
     });
-    const endNode = await algorithms.ASTAR(appState, dispatch);
+    const endNode = await pathAlgorithms[currentAlgorithm.path](
+      appState,
+      dispatch
+    );
     dispatch({ type: 'END_ALGO' });
     btns.forEach((btn) => {
       btn.disabled = false;
+      btn.style.opacity = 1;
     });
     if (!endNode) {
       console.log('no path found');
@@ -55,6 +66,25 @@ const Controller = ({ appState, dispatch }) => {
     } else {
       setactiveBtn(btn);
     }
+  };
+
+  const generateMaze = () => {
+    dispatch({ type: 'CLEAR_BOARD' });
+    mazeAlgorithms[currentAlgorithm.maze](appState, dispatch);
+  };
+  useEffect(() => {
+    generateMaze();
+  }, []);
+
+  const ToggleDropdown = (e) => {
+    const dropdown = e.target.parentElement.querySelector('.dropdownContent');
+    dropdown.style.display =
+      dropdown.style.display === 'block' ? 'none' : 'block';
+  };
+
+  const changeAlgo = (e, algo) => {
+    e.target.parentElement.style.display = 'none';
+    dispatch({ type: 'CHANGE_ALGO', payload: algo });
   };
 
   useEffect(() => {
@@ -98,8 +128,41 @@ const Controller = ({ appState, dispatch }) => {
   return (
     <>
       <ControllerContainer>
+        {/* maze generation buttons */}
         <ControllerWrapper>
-          <StartButton onClick={startAlgo}>Start</StartButton>
+          <Dropdown>
+            <DropdownBtn
+              onClick={(e) => {
+                ToggleDropdown(e);
+              }}
+            >
+              Maze algorithm: {currentAlgorithm.maze}
+            </DropdownBtn>
+            <DropdownContent className="dropdownContent">
+              {Object.keys(mazeAlgorithms).map((algo) => (
+                <p
+                  key={algo}
+                  onClick={(e) => {
+                    changeAlgo(e, { ...currentAlgorithm, maze: algo });
+                  }}
+                >
+                  {algo}
+                </p>
+              ))}
+            </DropdownContent>
+          </Dropdown>
+          <ControlButton
+            id="generate_maze_btn"
+            onClick={() => {
+              generateMaze();
+            }}
+          >
+            Generate Maze
+          </ControlButton>
+        </ControllerWrapper>
+
+        {/* Edit board buttons */}
+        <ControllerWrapper>
           <ControlButton
             id="create_obstacle_btn"
             onClick={(e) => toggleControl(e)}
@@ -110,7 +173,7 @@ const Controller = ({ appState, dispatch }) => {
             id="clear_obstacle_btn"
             onClick={(e) => toggleControl(e)}
           >
-            Clear Obstacle
+            Remove Obstacle
           </ControlButton>
           <ControlButton
             className="start"
@@ -132,6 +195,32 @@ const Controller = ({ appState, dispatch }) => {
           >
             Clear Board
           </ControlButton>
+        </ControllerWrapper>
+
+        {/* pathfinding buttons */}
+        <ControllerWrapper>
+          <Dropdown>
+            <DropdownBtn
+              onClick={(e) => {
+                ToggleDropdown(e);
+              }}
+            >
+              Maze algorithm: {currentAlgorithm.path}
+            </DropdownBtn>
+            <DropdownContent className="dropdownContent">
+              {Object.keys(pathAlgorithms).map((algo) => (
+                <p
+                  key={algo}
+                  onClick={(e) => {
+                    changeAlgo(e, { ...currentAlgorithm, path: algo });
+                  }}
+                >
+                  {algo}
+                </p>
+              ))}
+            </DropdownContent>
+          </Dropdown>
+          <StartButton onClick={startAlgo}>Start</StartButton>
         </ControllerWrapper>
       </ControllerContainer>
     </>

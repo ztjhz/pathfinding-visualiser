@@ -10,8 +10,8 @@ function App() {
   return (
     <>
       <h1>Pathfinding Visualiser</h1>
-      <Visualiser appState={state} dispatch={dispatch} />
       <Controller appState={state} dispatch={dispatch} />
+      <Visualiser appState={state} dispatch={dispatch} />
     </>
   );
 }

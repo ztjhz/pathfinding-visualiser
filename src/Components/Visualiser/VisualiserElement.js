@@ -36,7 +36,7 @@ export const Node = styled.div`
       : '#eeeeee'};
   border: 1px solid #212121;
   box-sizing: border-box;
-  transition: background 100ms linear;
+  transition: background 200ms ease-in-out;
 
   &:hover {
     background: ${(props) =>
