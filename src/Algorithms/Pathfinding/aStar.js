@@ -7,7 +7,7 @@ import {
 } from '../helper';
 
 const aStar = async (appState, dispatch) => {
-  const { start, end, rLen, cLen, obstacles } = appState;
+  const { start, end, rLen, cLen, obstacles, visualisationDelay } = appState;
   // open is a priority queue in an ascending order based on its f value
   const open = [new Node(start.r, start.c, null, 0, calculateDist(start, end))];
   const closed = [];
@@ -23,7 +23,7 @@ const aStar = async (appState, dispatch) => {
       !(end.r === curr.r && end.c === curr.c)
     ) {
       dispatch({ type: 'CLOSED_NODE', payload: { r: curr.r, c: curr.c } });
-      await sleep(1);
+      await sleep(visualisationDelay);
     }
 
     // reached the end

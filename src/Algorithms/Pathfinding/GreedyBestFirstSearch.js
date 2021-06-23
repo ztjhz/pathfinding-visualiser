@@ -7,7 +7,7 @@ import {
 } from '../helper';
 
 const GreedyBestFirstSearch = async (appState, dispatch) => {
-  const { start, end, obstacles, rLen, cLen } = appState;
+  const { start, end, obstacles, rLen, cLen, visualisationDelay } = appState;
 
   const startNode = new Node(
     start.r,
@@ -28,7 +28,7 @@ const GreedyBestFirstSearch = async (appState, dispatch) => {
       type: 'CLOSED_NODE',
       payload: { r: currNode.r, c: currNode.c },
     });
-    await sleep(1);
+    await sleep(visualisationDelay);
 
     // reached the end
     if (currNode.r === end.r && currNode.c === end.c) {

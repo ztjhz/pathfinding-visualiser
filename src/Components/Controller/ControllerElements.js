@@ -115,8 +115,8 @@ export const DropdownContent = styled.div`
   }
 
   & p:hover {
-    background-color: #212121;
-    color: white;
+    background-color: ${(props) => (props.highlight ? '#212121' : 'white')};
+    color: ${(props) => (props.highlight ? 'white' : '#212121')};
   }
 `;
 export const DropdownBtn = styled.button`
@@ -140,4 +140,43 @@ export const DropdownBtn = styled.button`
 export const Dropdown = styled.div`
   position: relative;
   display: inline-block;
+`;
+
+export const Slider = styled.input`
+  -webkit-appearance: none; /* Override default CSS styles */
+  appearance: none;
+  width: 150px; /* Full-width */
+  height: 15px; /* Specified height */
+  border-radius: 10px;
+  background: #ffffff;
+  border: 2px solid #212121;
+  outline: none; /* Remove outline */
+  -webkit-transition: 0.2s; /* 0.2 seconds transition on hover */
+  transition: opacity 0.2s;
+
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none; /* Override default look */
+    appearance: none;
+    width: 10px; /* Set a specific slider handle width */
+    height: 25px; /* Slider handle height */
+    opacity: 0.8;
+    background: #212121;
+    cursor: pointer; /* Cursor on hover */
+  }
+
+  &::-moz-range-thumb {
+    width: 10px; /* Set a specific slider handle width */
+    height: 25px; /* Slider handle height */
+    opacity: 0.8;
+    background: #212121;
+    cursor: pointer; /* Cursor on hover */
+  }
+
+  &::-webkit-slider-thumb:hover {
+    opacity: 1;
+  }
+
+  &::-moz-range-thumb:hover {
+    opacity: 1;
+  }
 `;

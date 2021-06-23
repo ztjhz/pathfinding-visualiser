@@ -1,7 +1,7 @@
 import { Node, getNeighbors, sleep } from '../helper';
 
 const BFS = async (appState, dispatch) => {
-  const { start, end, rLen, cLen, obstacles } = appState;
+  const { start, end, rLen, cLen, obstacles, visualisationDelay } = appState;
 
   const startNode = new Node(start.r, start.c, null);
   const explored = [];
@@ -13,7 +13,7 @@ const BFS = async (appState, dispatch) => {
       type: 'CLOSED_NODE',
       payload: { r: currNode.r, c: currNode.c },
     });
-    await sleep(1);
+    await sleep(visualisationDelay);
 
     // reached the end
     if (currNode.r === end.r && currNode.c === end.c) {

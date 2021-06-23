@@ -56,6 +56,7 @@ export const initialState = {
   obstacles,
   isFinding: false,
   controlState: 0,
+  visualisationDelay: 20,
 };
 
 export const reducer = (state, action) => {
@@ -150,8 +151,6 @@ export const reducer = (state, action) => {
       return { ...state, isFinding: true };
     case 'END_ALGO':
       return { ...state, isFinding: false };
-    default:
-      throw new Error('Wrong dispatch type!');
 
     /* change algorithms */
     case 'CHANGE_ALGO':
@@ -159,5 +158,15 @@ export const reducer = (state, action) => {
         ...state,
         currentAlgorithm: payload,
       };
+
+    /* change visualisation speed */
+    case 'CHANGE_SPEED':
+      return {
+        ...state,
+        visualisationDelay: payload,
+      };
+
+    default:
+      throw new Error('Wrong dispatch type!');
   }
 };

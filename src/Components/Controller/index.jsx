@@ -10,37 +10,45 @@ import {
   Dropdown,
   DropdownContent,
   DropdownBtn,
+  Slider,
 } from './ControllerElements';
 import { sleep } from '../../Algorithms/helper';
 
 const Controller = ({ appState, dispatch }) => {
-  const { pathAlgorithms, mazeAlgorithms, currentAlgorithm } = appState;
+  const {
+    pathAlgorithms,
+    mazeAlgorithms,
+    currentAlgorithm,
+    visualisationDelay,
+  } = appState;
   const [activeBtn, setactiveBtn] = useState(null);
 
   const startAlgo = async (e) => {
     e.target.disabled = true;
     dispatch({ type: 'CLEAR_PATH' });
     dispatch({ type: 'START_ALGO' });
-    const btns = [
+    const inputs = [
       document.querySelector('#create_obstacle_btn'),
       document.querySelector('#clear_obstacle_btn'),
       document.querySelector('#set_start_btn'),
       document.querySelector('#set_end_btn'),
       document.querySelector('#clear_board_btn'),
       document.querySelector('#generate_maze_btn'),
+      document.querySelector('.slider'),
+      document.querySelector('.slider').parentElement.parentElement,
     ];
-    btns.forEach((btn) => {
-      btn.disabled = true;
-      btn.style.opacity = 0.5;
+    inputs.forEach((input) => {
+      input.disabled = true;
+      input.style.opacity = 0.5;
     });
     const endNode = await pathAlgorithms[currentAlgorithm.path](
       appState,
       dispatch
     );
     dispatch({ type: 'END_ALGO' });
-    btns.forEach((btn) => {
-      btn.disabled = false;
-      btn.style.opacity = 1;
+    inputs.forEach((input) => {
+      input.disabled = false;
+      input.style.opacity = 1;
     });
     if (!endNode) {
       console.log('no path found');
@@ -207,7 +215,7 @@ const Controller = ({ appState, dispatch }) => {
             >
               Pathfinding algorithm: {currentAlgorithm.path}
             </DropdownBtn>
-            <DropdownContent className="dropdownContent">
+            <DropdownContent className="dropdownContent" highlight>
               {Object.keys(pathAlgorithms).map((algo) => (
                 <p
                   key={algo}
@@ -221,6 +229,38 @@ const Controller = ({ appState, dispatch }) => {
             </DropdownContent>
           </Dropdown>
           <StartButton onClick={startAlgo}>Start</StartButton>
+        </ControllerWrapper>
+
+        {/* Slider for speed control */}
+        <ControllerWrapper>
+          <Dropdown>
+            <DropdownBtn
+              onClick={(e) => {
+                ToggleDropdown(e);
+              }}
+            >
+              Visualisation Speed:
+            </DropdownBtn>
+            <DropdownContent className="dropdownContent" highlight={false}>
+              <p>
+                <Slider
+                  type="range"
+                  min="1"
+                  max="500"
+                  value={visualisationDelay}
+                  className="slider"
+                  id="speed"
+                  style={{ direction: 'rtl' }}
+                  onChange={(e) => {
+                    dispatch({
+                      type: 'CHANGE_SPEED',
+                      payload: Number(e.target.value),
+                    });
+                  }}
+                />
+              </p>
+            </DropdownContent>
+          </Dropdown>
         </ControllerWrapper>
       </ControllerContainer>
     </>

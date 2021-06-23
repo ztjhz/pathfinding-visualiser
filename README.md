@@ -20,6 +20,7 @@
 - Clear the board
 - Generate a random maze based on chosen algorithm
 - Start the pathfinding algorithm based on chosen algorithm
+- Change visualisation speed
 
 ---
 
