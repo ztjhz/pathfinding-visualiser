@@ -1,5 +1,6 @@
 {
   "name": "pathfinding-visualiser",
+  "homepage": "https://ztjhz.github.io/pathfinding-visualiser/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

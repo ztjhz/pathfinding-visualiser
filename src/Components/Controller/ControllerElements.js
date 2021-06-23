@@ -8,6 +8,10 @@ export const ControllerContainer = styled.div`
   max-width: 800px;
   margin: auto;
   padding-left: 10px;
+
+  @media (max-width: 640px) {
+    margin-left: 2px;
+  }
 `;
 
 export const ControllerWrapper = styled.div`

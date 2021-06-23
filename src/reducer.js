@@ -1,6 +1,8 @@
 import aStar from './Algorithms/Pathfinding/aStar';
 import binaryTreeMaze from './Algorithms/Maze Generation/binaryTree';
 import BFS from './Algorithms/Pathfinding/BreathFirstSearch';
+import dijkstra from "./Algorithms/Pathfinding/Dijkstra's";
+import GreedyBestFirstSearch from './Algorithms/Pathfinding/GreedyBestFirstSearch';
 
 const rLen = 20;
 const cLen = 20;
@@ -42,7 +44,10 @@ export const initialState = {
   nodes: initialiseNodes(defaultStart, defaultEnd),
   pathAlgorithms: {
     ASTAR: (appState, dispatch) => aStar(appState, dispatch),
+    'Greedy Best First Search': (appState, dispatch) =>
+      GreedyBestFirstSearch(appState, dispatch),
     'Breath First Search': (appState, dispatch) => BFS(appState, dispatch),
+    "Dijkstra's": (appState, dispatch) => dijkstra(appState, dispatch),
   },
   mazeAlgorithms: {
     'Binary Tree': (appState, dispatch) => binaryTreeMaze(appState, dispatch),
@@ -57,7 +62,6 @@ export const reducer = (state, action) => {
   const { payload } = action;
   // eslint-disable-next-line no-shadow
   const { nodes, path, obstacles, start, end } = state;
-
   const skip =
     payload &&
     ((state.start.r === payload.r && state.start.c === payload.c) ||

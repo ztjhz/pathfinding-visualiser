@@ -10,10 +10,10 @@ const BFS = async (appState, dispatch) => {
   while (queue.length > 0) {
     const currNode = queue.shift();
     dispatch({
-      type: 'OPEN_NODE',
+      type: 'CLOSED_NODE',
       payload: { r: currNode.r, c: currNode.c },
     });
-    // await sleep(1);
+    await sleep(1);
 
     // reached the end
     if (currNode.r === end.r && currNode.c === end.c) {
@@ -41,11 +41,11 @@ const BFS = async (appState, dispatch) => {
         if (!skip) {
           explored.push({ r: neighbor.r, c: neighbor.c });
           queue.push(neighbor);
+          dispatch({
+            type: 'OPEN_NODE',
+            payload: { r: neighbor.r, c: neighbor.c },
+          });
         }
-        dispatch({
-          type: 'CLOSED_NODE',
-          payload: { r: currNode.r, c: currNode.c },
-        });
       }
     }
   }

@@ -7,7 +7,10 @@ export class Node {
     this.parent = parent;
     this.g = g;
     this.h = h;
-    this.f = this.g + this.h;
+    this.f = null;
+    if (this.g && this.h) {
+      this.f = this.g + this.h;
+    }
   }
 }
 
@@ -78,4 +81,14 @@ export const shuffleArray = (array) => {
     const j = Math.floor(Math.random() * (i + 1));
     [array[i], array[j]] = [array[j], array[i]];
   }
+};
+
+export const insertAscending = (array, item, key) => {
+  for (let i = 0; i < array.length; i += 1) {
+    if (key(item) < key(array[i])) {
+      array.splice(i, 0, item);
+      return;
+    }
+  }
+  array.splice(array.length, 0, item);
 };

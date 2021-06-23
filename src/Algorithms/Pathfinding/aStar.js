@@ -1,17 +1,20 @@
-import { sleep, Node, getNeighbors, calculateDist } from '../helper';
+import {
+  sleep,
+  Node,
+  getNeighbors,
+  calculateDist,
+  insertAscending,
+} from '../helper';
 
 const aStar = async (appState, dispatch) => {
   const { start, end, rLen, cLen, obstacles } = appState;
+  // open is a priority queue in an ascending order based on its f value
   const open = [new Node(start.r, start.c, null, 0, calculateDist(start, end))];
   const closed = [];
 
   while (open.length > 0) {
     // find node with the smallest f value and pop it out of open
-    let smallestFIndex = 0;
-    for (let i = 1; i < open.length; i += 1) {
-      if (open[i].f < open[smallestFIndex].f) smallestFIndex = i;
-    }
-    const curr = open.splice(smallestFIndex, 1)[0];
+    const curr = open.shift();
 
     closed.push(curr);
     // update the color of the node in browser
@@ -79,7 +82,7 @@ const aStar = async (appState, dispatch) => {
 
         // we ignore neighbour nodes that are already in the open/closed list but has higher g value
         if (!inOpenOrClosed || push) {
-          open.push(neighbour);
+          insertAscending(open, neighbour, (node) => node.f);
 
           dispatch({
             type: 'OPEN_NODE',

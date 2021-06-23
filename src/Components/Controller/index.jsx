@@ -128,39 +128,6 @@ const Controller = ({ appState, dispatch }) => {
   return (
     <>
       <ControllerContainer>
-        {/* maze generation buttons */}
-        <ControllerWrapper>
-          <Dropdown>
-            <DropdownBtn
-              onClick={(e) => {
-                ToggleDropdown(e);
-              }}
-            >
-              Maze algorithm: {currentAlgorithm.maze}
-            </DropdownBtn>
-            <DropdownContent className="dropdownContent">
-              {Object.keys(mazeAlgorithms).map((algo) => (
-                <p
-                  key={algo}
-                  onClick={(e) => {
-                    changeAlgo(e, { ...currentAlgorithm, maze: algo });
-                  }}
-                >
-                  {algo}
-                </p>
-              ))}
-            </DropdownContent>
-          </Dropdown>
-          <ControlButton
-            id="generate_maze_btn"
-            onClick={() => {
-              generateMaze();
-            }}
-          >
-            Generate Maze
-          </ControlButton>
-        </ControllerWrapper>
-
         {/* Edit board buttons */}
         <ControllerWrapper>
           <ControlButton
@@ -197,6 +164,39 @@ const Controller = ({ appState, dispatch }) => {
           </ControlButton>
         </ControllerWrapper>
 
+        {/* maze generation buttons */}
+        <ControllerWrapper>
+          <Dropdown>
+            <DropdownBtn
+              onClick={(e) => {
+                ToggleDropdown(e);
+              }}
+            >
+              Maze algorithm: {currentAlgorithm.maze}
+            </DropdownBtn>
+            <DropdownContent className="dropdownContent">
+              {Object.keys(mazeAlgorithms).map((algo) => (
+                <p
+                  key={algo}
+                  onClick={(e) => {
+                    changeAlgo(e, { ...currentAlgorithm, maze: algo });
+                  }}
+                >
+                  {algo}
+                </p>
+              ))}
+            </DropdownContent>
+          </Dropdown>
+          <ControlButton
+            id="generate_maze_btn"
+            onClick={() => {
+              generateMaze();
+            }}
+          >
+            Generate Maze
+          </ControlButton>
+        </ControllerWrapper>
+
         {/* pathfinding buttons */}
         <ControllerWrapper>
           <Dropdown>
@@ -205,7 +205,7 @@ const Controller = ({ appState, dispatch }) => {
                 ToggleDropdown(e);
               }}
             >
-              Maze algorithm: {currentAlgorithm.path}
+              Pathfinding algorithm: {currentAlgorithm.path}
             </DropdownBtn>
             <DropdownContent className="dropdownContent">
               {Object.keys(pathAlgorithms).map((algo) => (

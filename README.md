@@ -1,3 +1,28 @@
+**Live website:** https://ztjhz.github.io/pathfinding-visualiser/
+
+**Pathfinding Algorithms:**
+
+- A\*
+- Greedy Best First Search
+- Breadth First Search
+- Dijkstra's
+
+**Maze Generation Algorithms:**
+
+- Binary Tree
+
+**Functions:**
+
+- Create obstacles
+- Remove obstacles
+- Set start point
+- Set end point
+- Clear the board
+- Generate a random maze based on chosen algorithm
+- Start the pathfinding algorithm based on chosen algorithm
+
+---
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
