@@ -1,17 +1,34 @@
-**Live website:** https://ztjhz.github.io/pathfinding-visualiser/
+# Pathfinding Visualizer
 
-**Pathfinding Algorithms:**
+![JavaScript](https://img.shields.io/badge/-JavaScript-%23F7DF1C?style=flat-square&logo=javascript&logoColor=000000&labelColor=%23F7DF1C&color=%23FFCE5A)
+![React](https://img.shields.io/badge/-React-61DAFB?style=flat-square&logo=react&logoColor=ffffff)
+
+## [Live Website](https://ztjhz.github.io/pathfinding-visualiser/)
+
+<img src="public/pathfinding.gif" alt="demo gif" width="400"/>
+
+## Implementation:
+
+- JavaScript
+  - Implement pathfinding algorithms
+  - Implement maze generation algorithms
+  - Manipulate configurations of visualizer
+- React
+  - Visualize algorithms
+  - Implement visual controls
+
+## **Pathfinding Algorithms:**
 
 - A\*
 - Greedy Best First Search
 - Breadth First Search
 - Dijkstra's
 
-**Maze Generation Algorithms:**
+## **Maze Generation Algorithms:**
 
 - Binary Tree
 
-**Functions:**
+## **Functions:**
 
 - Create obstacles
 - Remove obstacles
