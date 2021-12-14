@@ -5,7 +5,7 @@
 
 ## [Live Website](https://ztjhz.github.io/pathfinding-visualiser/)
 
-<img src="public/pathfinding.gif" alt="demo gif" width="400"/>
+<a href="https://ztjhz.github.io/pathfinding-visualiser/" target="_blank" alt="demo site"><img src="public/pathfinding.gif" alt="demo gif" width="400"/></a>
 
 ## Implementation:
 
